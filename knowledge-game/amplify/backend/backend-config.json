@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "knowledgegame7389f746": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
