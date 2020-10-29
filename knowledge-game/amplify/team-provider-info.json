@@ -11,5 +11,18 @@
       "StackId": "arn:aws:cloudformation:us-east-1:465613874668:stack/amplify-knowledgegame-prod-121749/1d292a70-1a13-11eb-be81-12b94cd95a93",
       "AmplifyAppId": "dv44jmntrf4zr"
     }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-knowledgegame-dev-122609-authRole",
+      "UnauthRoleArn": "arn:aws:iam::465613874668:role/amplify-knowledgegame-dev-122609-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::465613874668:role/amplify-knowledgegame-dev-122609-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-knowledgegame-dev-122609-deployment",
+      "UnauthRoleName": "amplify-knowledgegame-dev-122609-unauthRole",
+      "StackName": "amplify-knowledgegame-dev-122609",
+      "StackId": "arn:aws:cloudformation:us-east-1:465613874668:stack/amplify-knowledgegame-dev-122609/38f88010-1a14-11eb-839c-0e5e10b6c293",
+      "AmplifyAppId": "dv44jmntrf4zr"
+    }
   }
 }
