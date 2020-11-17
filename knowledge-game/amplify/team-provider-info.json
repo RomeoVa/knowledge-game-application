@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-knowledgegame-dev-184025-authRole",
+      "UnauthRoleArn": "arn:aws:iam::963811988321:role/amplify-knowledgegame-dev-184025-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::963811988321:role/amplify-knowledgegame-dev-184025-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-knowledgegame-dev-184025-deployment",
+      "UnauthRoleName": "amplify-knowledgegame-dev-184025-unauthRole",
+      "StackName": "amplify-knowledgegame-dev-184025",
+      "StackId": "arn:aws:cloudformation:us-east-1:963811988321:stack/amplify-knowledgegame-dev-184025/7d65c520-286d-11eb-b791-0a73682547f5",
+      "AmplifyAppId": "d7vjhvmn2da7c"
+    }
+  }
+}
