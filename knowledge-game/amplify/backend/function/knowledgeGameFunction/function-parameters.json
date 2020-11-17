@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "api": {
+      "knowledgeGameGQLApi": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

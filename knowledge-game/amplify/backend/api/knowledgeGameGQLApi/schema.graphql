@@ -1,0 +1,40 @@
+type Season @model(timestamps:{createdAt: "createdOn"}){
+  id: ID!
+  title: String!
+  totalUsers: Int!
+  duration: Int!
+  users: [UserSeason] @connection(keyName: "bySeason", fields: ["id"])
+}
+
+# Create a join model and disable queries as you don't need them
+# and can query through Season.users and User.seasons
+type UserSeason
+  @model(queries: null)
+  @key(name: "bySeason", fields: ["seasonID", "userID"])
+  @key(name: "byUser", fields: ["userID", "seasonID"]) {
+  id: ID!
+  seasonID: ID!
+  userID: ID!
+  season: Season! @connection(fields: ["seasonID"])
+  user: User! @connection(fields: ["userID"])
+  score: Int!
+}
+
+type User @model {
+  id: ID!
+  username: String!
+  seasons: [UserSeason] @connection(keyName: "byUser", fields: ["id"])
+}
+
+type Question @model {
+  id: ID!
+  label: String!
+  category: String!
+  correct: Int!
+  answers: [Answer!]!
+}
+
+type Answer {
+  id: Int!
+  label: String!
+}

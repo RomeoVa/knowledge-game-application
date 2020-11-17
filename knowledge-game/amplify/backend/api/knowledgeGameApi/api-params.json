@@ -1,0 +1,43 @@
+{
+    "paths": [
+        {
+            "name": "/seasons",
+            "lambdaFunction": "knowledgeGameFunction",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/seasons"
+        },
+        {
+            "name": "/user-seasons",
+            "lambdaFunction": "knowledgeGameFunction",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/user-seasons"
+        }
+    ],
+    "resourceName": "knowledgeGameApi",
+    "apiName": "knowledgeGameApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "knowledgeGameFunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-knowledgegame-dev-184025-authRole",
+        "unAuthRoleName": "amplify-knowledgegame-dev-184025-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "knowledgeGameFunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

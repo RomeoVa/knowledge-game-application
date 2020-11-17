@@ -10,6 +10,11 @@
       "StackName": "amplify-knowledgegame-dev-184025",
       "StackId": "arn:aws:cloudformation:us-east-1:963811988321:stack/amplify-knowledgegame-dev-184025/7d65c520-286d-11eb-b791-0a73682547f5",
       "AmplifyAppId": "d7vjhvmn2da7c"
+    },
+    "categories": {
+      "auth": {
+        "knowledgegame7d8420ec": {}
+      }
     }
   }
 }
