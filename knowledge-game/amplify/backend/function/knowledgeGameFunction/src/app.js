@@ -18,6 +18,10 @@ Amplify Params - DO NOT EDIT */
 var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const axios = require('axios');
+const gql = require('graphql-tag');
+const graphql = require('graphql');
+const { print } = graphql;
 
 // declare a new express app
 var app = express()
@@ -36,56 +40,178 @@ app.use(function(req, res, next) {
  * Example get method *
  **********************/
 
-app.get('/seasons', function(req, res) {
+const listSeasons = gql`
+  query getSeasons {
+    listSeasons {
+      items {
+        createdOn
+        id
+        duration
+        title
+        totalUsers
+      }
+    }
+  }
+`
+
+app.get('/seasons', async function(req, res) {
   // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+  try {
+    const graphqlData = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(listSeasons),
+      }
+    });
+
+    const body = {
+        graphqlData: graphqlData.data.data.listSeasons
+    }
+
+    res.json({message: 'get call succeed!', url: req.url, body:body});
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+    res.json(500,{message: 'error', url: req.url});
+  } 
+
 });
 
-app.get('/seasons/*', function(req, res) {
+app.get('/question', async function(req, res) {
   // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+  try {
+
+    const getQuestions = gql`
+      query getQuestions {
+        listQuestions {
+          items {
+            answers {
+              id
+              label
+            }
+            category
+            correct
+            label
+            id
+          }
+        }
+      }
+    `
+
+    const graphqlData = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(getQuestions),
+      }
+    });
+
+    const questions = graphqlData.data.data.listQuestions.items
+    const id = Math.floor(Math.random() * questions.length)
+
+    const body = {
+      question: questions[id]
+    }
+
+    res.json({message: 'get call succeed!', url: req.url, body:body});
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+    res.json(500,{message: 'error', url: req.url});
+  } 
+
 });
 
-/****************************
-* Example post method *
-****************************/
 
-app.post('/seasons', function(req, res) {
+app.post('/my-seasons', async function(req, res) {
   // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+  try {
+
+    const userId = req.body.userId
+    
+    const mySeasons = gql`
+      query mySeasons {
+        getUser(id: "${userId}") {
+          seasons {
+            items {
+              score
+              season {
+                createdOn
+                duration
+                title
+                totalUsers
+                id
+              }
+            }
+          }
+        }
+      }
+    `
+
+    const graphqlData = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(mySeasons),
+      }
+    });
+
+    const body = {
+        graphqlData: graphqlData.data.data.getUser
+    }
+
+    res.json({message: 'get call succeed!', url: req.url, body:body});
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+    res.json(500,{message: 'error', url: req.url});
+  } 
+
 });
 
-app.post('/seasons/*', function(req, res) {
+app.put('/join-season', async function(req, res) {
   // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
+  try {
 
-/****************************
-* Example put method *
-****************************/
+    const userId = req.body.userId
+    const seasonId = req.body.seasonId
+    
+    const joinSeason = gql`
+      mutation joinSeason {
+        createUserSeason(input: {score: 0, seasonID: "${seasonId}", userID: "${userId}"}) {
+          id
+        }
+      }
+    `
 
-app.put('/seasons', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
+    const graphqlData = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(joinSeason),
+      }
+    });
 
-app.put('/seasons/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
+    const body = {
+        graphqlData: graphqlData.data.data.createUserSeason
+    }
 
-/****************************
-* Example delete method *
-****************************/
+    res.json({message: 'get call succeed!', url: req.url, body:body});
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+    res.json(500,{message: 'error', url: req.url});
+  } 
 
-app.delete('/seasons', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/seasons/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
 });
 
 app.listen(3000, function() {

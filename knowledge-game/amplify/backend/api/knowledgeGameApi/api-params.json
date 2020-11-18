@@ -15,6 +15,27 @@
                 "open": true
             },
             "policyResourceName": "/user-seasons"
+        },
+        {
+            "name": "/question",
+            "lambdaFunction": "knowledgeGameFunction",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/my-seasons",
+            "lambdaFunction": "knowledgeGameFunction",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/join-season",
+            "lambdaFunction": "knowledgeGameFunction",
+            "privacy": {
+                "open": true
+            }
         }
     ],
     "resourceName": "knowledgeGameApi",
@@ -39,5 +60,6 @@
                 "Arn"
             ]
         }
-    ]
+    ],
+    "uuid": "afe3fb1b"
 }
