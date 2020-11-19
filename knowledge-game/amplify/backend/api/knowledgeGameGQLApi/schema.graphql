@@ -3,6 +3,7 @@ type Season @model(timestamps:{createdAt: "createdOn"}){
   title: String!
   totalUsers: Int!
   duration: Int!
+  disabled: Boolean!
   users: [UserSeason] @connection(keyName: "bySeason", fields: ["id"])
 }
 

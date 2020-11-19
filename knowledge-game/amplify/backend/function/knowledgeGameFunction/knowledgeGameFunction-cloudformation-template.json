@@ -90,7 +90,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-knowledgegame-dev-184025-deployment",
-          "S3Key": "amplify-builds/knowledgeGameFunction-2f4d7242586969383133-build.zip"
+          "S3Key": "amplify-builds/knowledgeGameFunction-447a6c68324f35675459-build.zip"
         }
       }
     },

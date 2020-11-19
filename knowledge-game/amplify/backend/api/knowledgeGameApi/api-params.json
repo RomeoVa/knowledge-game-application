@@ -36,6 +36,20 @@
             "privacy": {
                 "open": true
             }
+        },
+        {
+            "name": "/score",
+            "lambdaFunction": "knowledgeGameFunction",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/update-score",
+            "lambdaFunction": "knowledgeGameFunction",
+            "privacy": {
+                "open": true
+            }
         }
     ],
     "resourceName": "knowledgeGameApi",
@@ -61,5 +75,5 @@
             ]
         }
     ],
-    "uuid": "afe3fb1b"
+    "uuid": "bd7db0ae"
 }

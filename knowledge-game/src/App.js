@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from './views/Home'
 import NavBar from './Components/Navbar'
 import Profile from './views/Profile'
+import Question from './views/Question'
 
 //import logo from './logo.svg';
 import './App.css';
@@ -27,6 +28,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/question/:title/:id" component={Question} />
           </Switch>
         </BrowserRouter>
       </div>

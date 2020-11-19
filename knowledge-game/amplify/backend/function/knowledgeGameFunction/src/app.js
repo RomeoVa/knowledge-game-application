@@ -49,6 +49,7 @@ const listSeasons = gql`
         duration
         title
         totalUsers
+        disabled
       }
     }
   }
@@ -127,6 +128,52 @@ app.get('/question', async function(req, res) {
 
 });
 
+app.get('/question', async function(req, res) {
+  // Add your code here
+  try {
+
+    const getQuestions = gql`
+      query getQuestions {
+        listQuestions {
+          items {
+            answers {
+              id
+              label
+            }
+            category
+            correct
+            label
+            id
+          }
+        }
+      }
+    `
+
+    const graphqlData = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(getQuestions),
+      }
+    });
+
+    const questions = graphqlData.data.data.listQuestions.items
+    const id = Math.floor(Math.random() * questions.length)
+
+    const body = {
+      question: questions[id]
+    }
+
+    res.json({message: 'get call succeed!', url: req.url, body:body});
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+    res.json(500,{message: 'error', url: req.url});
+  } 
+
+});
 
 app.post('/my-seasons', async function(req, res) {
   // Add your code here
@@ -176,6 +223,88 @@ app.post('/my-seasons', async function(req, res) {
 
 });
 
+app.post('/score', async function(req, res) {
+  // Add your code here
+  try {
+
+    const userId = req.body.userId
+    const seasonId = req.body.seasonId
+    
+    const getScore = gql`
+      query getScore {
+        getUser(id: "${userId}") {
+          seasons(seasonID: {eq: "${seasonId}"}) {
+            items {
+              score
+              id
+            }
+          }
+        }
+      }
+    `
+
+    const graphqlData = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(getScore),
+      }
+    });
+
+    const body = {
+        graphqlData: graphqlData.data.data.getUser
+    }
+
+    res.json({message: 'get call succeed!', url: req.url, body:body});
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+    res.json(500,{message: 'error', url: req.url});
+  } 
+
+});
+
+app.post('/update-score', async function(req, res) {
+  // Add your code here
+  try {
+
+    const score = req.body.score
+    const userSeasonId = req.body.userSeasonId
+    
+    const updateScore = gql`
+      mutation updateScore {
+        updateUserSeason(input: {score: ${score}, id: "${userSeasonId}"}) {
+          score
+        }
+      }
+    `
+
+    const graphqlData = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(updateScore),
+      }
+    });
+
+    const body = {
+        graphqlData: graphqlData.data.data.updateUserSeason
+    }
+
+    res.json({message: 'get call succeed!', url: req.url, body:body});
+  } catch (err) {
+    console.log('error posting to appsync: ', err);
+    res.json(500,{message: 'error', url: req.url});
+  } 
+
+});
+
+
 app.put('/join-season', async function(req, res) {
   // Add your code here
   try {
@@ -190,6 +319,46 @@ app.put('/join-season', async function(req, res) {
         }
       }
     `
+    const getTotal = gql`
+      query getTotal {
+        getSeason(id: "${seasonId}") {
+          id
+          totalUsers
+        }
+      }
+    `
+
+    const graphqlDataGetTotal = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(getTotal),
+      }
+    });
+
+    const totalUsers = graphqlDataGetTotal.data.data.getSeason.totalUsers + 1;
+
+    const updateSeason = gql`
+      mutation updateSeason {
+        updateSeason(input: {totalUsers: ${totalUsers}, id: "${seasonId}"}) {
+          id
+        }
+      }
+    `
+
+    const graphqlDataUpdateSeason = await axios({
+      url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        'x-api-key': process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIKEYOUTPUT
+      },
+      data: {
+        query: print(updateSeason),
+      }
+    });
 
     const graphqlData = await axios({
       url: process.env.API_KNOWLEDGEGAMEGQLAPI_GRAPHQLAPIENDPOINTOUTPUT,
@@ -206,7 +375,7 @@ app.put('/join-season', async function(req, res) {
         graphqlData: graphqlData.data.data.createUserSeason
     }
 
-    res.json({message: 'get call succeed!', url: req.url, body:body});
+    res.json({message: 'get call succeed!', url: req.url,body});
   } catch (err) {
     console.log('error posting to appsync: ', err);
     res.json(500,{message: 'error', url: req.url});

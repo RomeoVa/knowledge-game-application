@@ -8,6 +8,7 @@ export const onCreateSeason = /* GraphQL */ `
       title
       totalUsers
       duration
+      disabled
       users {
         items {
           id
@@ -31,6 +32,7 @@ export const onUpdateSeason = /* GraphQL */ `
       title
       totalUsers
       duration
+      disabled
       users {
         items {
           id
@@ -54,6 +56,7 @@ export const onDeleteSeason = /* GraphQL */ `
       title
       totalUsers
       duration
+      disabled
       users {
         items {
           id
@@ -81,6 +84,7 @@ export const onCreateUserSeason = /* GraphQL */ `
         title
         totalUsers
         duration
+        disabled
         users {
           nextToken
         }
@@ -113,6 +117,7 @@ export const onUpdateUserSeason = /* GraphQL */ `
         title
         totalUsers
         duration
+        disabled
         users {
           nextToken
         }
@@ -145,6 +150,7 @@ export const onDeleteUserSeason = /* GraphQL */ `
         title
         totalUsers
         duration
+        disabled
         users {
           nextToken
         }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from "react-bootstrap";
 
-import './Navbar.scss'; 
+import './Navbar.css'; 
 
 import {
     AmplifySignOut

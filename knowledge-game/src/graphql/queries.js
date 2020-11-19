@@ -8,6 +8,7 @@ export const getSeason = /* GraphQL */ `
       title
       totalUsers
       duration
+      disabled
       users {
         items {
           id
@@ -36,6 +37,7 @@ export const listSeasons = /* GraphQL */ `
         title
         totalUsers
         duration
+        disabled
         users {
           nextToken
         }

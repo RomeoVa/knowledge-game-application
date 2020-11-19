@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tab, Tabs } from "react-bootstrap";
 
-import './Home.scss'; 
+import './Home.css'; 
 
 import MySeasons from '../Components/MySeasons'
 import AllSeasons from '../Components/AllSesons'
