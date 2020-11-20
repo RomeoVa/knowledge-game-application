@@ -18,11 +18,14 @@ function Question(props)
     const [userSeasonID, setUserSeasonID] = useState("")
     const [userID, setUserID] = useState("")
     const [seasonID, setSeasonID] = useState("")
+    const [isloading, setIsLoading] = useState(false)
     
 
     useEffect(() => {
 
         setSeasonID(props.match.params.id)
+
+        setIsLoading(true)
         
         API.get('knowledgeGameApi', '/question')
         .then(res => {
@@ -33,6 +36,8 @@ function Question(props)
             setRes4(res.body.question.answers[3])
 
             setQuestion(res.body.question)
+            console.log("Hola")
+            setIsLoading(false)
     
         })
         .catch(function (error) {
@@ -42,30 +47,34 @@ function Question(props)
         
 
         onAuthUIStateChange((nextAuthState, authData) => {
-            
-            setUserID(authData.attributes.sub)
 
-            const body = {
+            if(authData){
             
-                userId: authData.attributes.sub,
-                seasonId:props.match.params.id
+                setUserID(authData.attributes.sub)
+
+                const body = {
                 
-            }
-
-            API.post('knowledgeGameApi', '/score',{body})
-            .then(res => {
-
-            
-                if(res.body.graphqlData.seasons.items.length > 0){
-                    setScore(res.body.graphqlData.seasons.items[0].score)
-                    setUserSeasonID(res.body.graphqlData.seasons.items[0].id)
+                    userId: authData.attributes.sub,
+                    seasonId:props.match.params.id
+                    
                 }
+
+                API.post('knowledgeGameApi', '/score',{body})
+                .then(res => {
+
+                
+                    if(res.body.graphqlData.seasons.items.length > 0){
+                        setScore(res.body.graphqlData.seasons.items[0].score)
+                        setUserSeasonID(res.body.graphqlData.seasons.items[0].id)
+                    }
+                
             
-        
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            }
         });
 
 
@@ -82,12 +91,13 @@ function Question(props)
             
         }
 
+        setIsLoading(true)
+
         API.post('knowledgeGameApi', '/update-score',{body})
         .then(res => {
 
             
             console.log(res)
-            console.log("hola")
         
     
         })
@@ -104,6 +114,8 @@ function Question(props)
             setRes4(res.body.question.answers[3])
 
             setQuestion(res.body.question)
+
+            setIsLoading(false)
     
         })
         .catch(function (error) {
@@ -184,38 +196,46 @@ function Question(props)
                 </Col>
             </Row>
             <Row>
-                <Col xs={12}>
-                    <h3>{question.category}</h3>
-                    <h1>{question.label}</h1>
-                </Col>
-                <Col lg={6} md={6} sm={6} xs={12}>
-                    <Card value="1" style={{ marginTop: '1rem' ,height:'5rem'}}>
-                        <button  value={res1.id} onClick={handleClick} style={{ height:'100%'}}>
-                            {res1.label}
-                        </button>
-                    </Card>
-                </Col>
-                <Col lg={6} md={6} sm={6} xs={12}>
-                    <Card style={{ marginTop: '1rem' ,height:'5rem'}}>
-                        <button value={res2.id}  onClick={handleClick} style={{ height:'100%'}}>
-                            {res2.label}
-                        </button>
-                    </Card>
-                </Col>
-                <Col lg={6} md={6} sm={6} xs={12}>
-                    <Card style={{ marginTop: '1rem' ,height:'5rem'}}>
-                        <button value={res3.id} onClick={handleClick} style={{ height:'100%'}}>
-                            {res3.label}
-                        </button>
-                    </Card>
-                </Col>
-                <Col lg={6} md={6} sm={6} xs={12}>
-                    <Card style={{ marginTop: '1rem' ,height:'5rem'}}>
-                        <button value={res4.id} onClick={handleClick} style={{ height:'100%'}}>
-                            {res4.label}
-                        </button>
-                    </Card>
-                </Col>
+                <>
+                {(!isloading) ?
+                    <>
+                    <Col xs={12}>
+                        <h3>{question.category}</h3>
+                        <h1>{question.label}</h1>
+                    </Col>
+                    <Col lg={6} md={6} sm={6} xs={12}>
+                        <Card value="1" style={{ marginTop: '1rem' ,height:'5rem'}}>
+                            <button  value={res1.id} onClick={handleClick} style={{ height:'100%'}}>
+                                {res1.label}
+                            </button>
+                        </Card>
+                    </Col>
+                    <Col lg={6} md={6} sm={6} xs={12}>
+                        <Card style={{ marginTop: '1rem' ,height:'5rem'}}>
+                            <button value={res2.id}  onClick={handleClick} style={{ height:'100%'}}>
+                                {res2.label}
+                            </button>
+                        </Card>
+                    </Col>
+                    <Col lg={6} md={6} sm={6} xs={12}>
+                        <Card style={{ marginTop: '1rem' ,height:'5rem'}}>
+                            <button value={res3.id} onClick={handleClick} style={{ height:'100%'}}>
+                                {res3.label}
+                            </button>
+                        </Card>
+                    </Col>
+                    <Col lg={6} md={6} sm={6} xs={12}>
+                        <Card style={{ marginTop: '1rem' ,height:'5rem'}}>
+                            <button value={res4.id} onClick={handleClick} style={{ height:'100%'}}>
+                                {res4.label}
+                            </button>
+                        </Card>
+                    </Col>
+                    </>
+                :
+                    <h1>Loading...</h1>
+                }
+                </>
             </Row>
         </Container>
 

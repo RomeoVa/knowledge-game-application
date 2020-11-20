@@ -22,7 +22,7 @@ function AllSeasons(props)
         });
 
         onAuthUIStateChange((nextAuthState, authData) => {
-            if(authData.attributes != null){
+            if(authData){
                 setUser(authData.attributes.sub)
             }
         });
