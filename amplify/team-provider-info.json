@@ -20,6 +20,10 @@
           "appId": "d7vjhvmn2da7c",
           "type": "cicd"
         }
+      },
+      "function": {
+        "knowledgeGameFunction": {},
+        "knowledgeGameAddUser": {}
       }
     }
   }
