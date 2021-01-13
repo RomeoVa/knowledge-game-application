@@ -101,7 +101,7 @@
         "Layers": [],
         "Timeout": "25",
         "Code": {
-          "S3Bucket": "amplify-knowledgegame-dev-184025-deployment",
+          "S3Bucket": "amplify-knowledgegame-test-223847-deployment",
           "S3Key": "amplify-builds/knowledgeGameAddUser-4c2b6174527238634b52-build.zip"
         }
       }
