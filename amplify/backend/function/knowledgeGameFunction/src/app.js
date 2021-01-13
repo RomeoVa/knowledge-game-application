@@ -180,6 +180,8 @@ app.post('/my-seasons', async function(req, res) {
   try {
 
     const userId = req.body.userId
+
+    console.log("Hola")
     
     const mySeasons = gql`
       query mySeasons {
